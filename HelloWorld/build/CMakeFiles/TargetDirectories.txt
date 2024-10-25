@@ -1,3 +1,0 @@
-/home/maks/HW/OS/HelloWorld/build/CMakeFiles/OSProject.dir
-/home/maks/HW/OS/HelloWorld/build/CMakeFiles/edit_cache.dir
-/home/maks/HW/OS/HelloWorld/build/CMakeFiles/rebuild_cache.dir
