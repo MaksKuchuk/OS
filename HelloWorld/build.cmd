@@ -1,1 +1,4 @@
-git pull origin main
+cd build/
+cmake ..
+make
+cd ..
