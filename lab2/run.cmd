@@ -1,2 +1,4 @@
-build/main build/prog
-build/main build/error_prog
+cd build
+main.exe ./prog.exe
+main.exe ./error_prog.exe
+cd ..
