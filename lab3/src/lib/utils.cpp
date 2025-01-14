@@ -11,10 +11,10 @@ int cur_pid() {
 
 void wait_all_progs(const std::atomic_bool *is_running) {
     auto SH_MEM = cplib::SharedMem<State>("m");
+    int loc_pid = cur_pid();
     do {
         SH_MEM.Lock();
         int closed_pid = SH_MEM.Data()->closed_pid;
-        int loc_pid = cur_pid();
         if (closed_pid == -1) SH_MEM.Data()->closed_pid = loc_pid;
         SH_MEM.Unlock();
 
