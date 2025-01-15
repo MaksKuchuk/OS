@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
 
     std::atomic_bool is_runnig = {true};
     std::string str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Process: main";
-    std::cout << str << std::endl;
+    // std::cout << str << std::endl;
     file_wr(std::string(LOG), &str, SH_MEM);
     SH_MEM.Lock();
     SH_MEM.Data()->processes++;
@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
 
     int cnt = 0;
     for (;;) {
+        std::cout << "Select option [a]dd, [s]how, [q]uit: ";
         std::string inp;
         std::cin >> inp;
         if (inp == "a") {

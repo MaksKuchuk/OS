@@ -10,7 +10,7 @@
 
 int main() {
     auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
-    std::cout << "Proc2 process started" << std::endl;
+    // std::cout << "Proc2 process started" << std::endl;
     std::string str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Process: proc2";
     file_wr(std::string(LOG), &str, SH_MEM);
 

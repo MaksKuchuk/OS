@@ -6,7 +6,7 @@
 void file_wr(std::string path, std::string *str, cplib::SharedMem<State> &sh_data) {
     sh_data.Lock();
     std::ofstream log(path, std::ios::app);
-    std::cout << (*str) << std::endl;
+    // std::cout << (*str) << std::endl;
     log << (*str).c_str() << '\n';
     log.close();
     sh_data.Unlock();
