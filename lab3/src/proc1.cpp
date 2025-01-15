@@ -10,14 +10,14 @@
 int main() {
     auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
     std::cout << "Proc1 process started" << std::endl;
-    std::string str = std::format("Time: {},  Pid: {},  Process: proc1", time_to_string(cur_time()), cur_pid());
+    std::string str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Process proc1";
     file_wr(std::string(LOG), &str, SH_MEM);
 
     SH_MEM.Lock();
     SH_MEM.Data()->counter += 10;
     SH_MEM.Unlock();
 
-    str = std::format("Time: {},  Pid: {},  Stop proc1", time_to_string(cur_time()), cur_pid());
+    str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Stop proc1";
     file_wr(std::string(LOG), &str, SH_MEM);
 
     return 0;

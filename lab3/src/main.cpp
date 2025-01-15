@@ -9,16 +9,12 @@
 #include "lib/ipc.hpp"
 #include "lib/threads.hpp"
 
-#include <unistd.h>
-#include <stdio.h>
-#include <linux/limits.h>
-
 int main(int argc, char** argv) {
     auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
     std::cout << "Main process started" << std::endl;
 
-    std::atomic_bool is_runnig = true;
-    std::string str = std::format("Time: {},  Pid: {},  Process: main", time_to_string(cur_time()), cur_pid());
+    std::atomic_bool is_runnig = {true};
+    std::string str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Process: main";
     std::cout << str << std::endl;
     file_wr(std::string(LOG), &str, SH_MEM);
     SH_MEM.Lock();
@@ -53,7 +49,7 @@ int main(int argc, char** argv) {
     thread_wr_log.join();
     thread_spawn_copy.join();
 
-    str = std::format("Time: {},  Pid: {},  Stop main", time_to_string(cur_time()), cur_pid());
+    str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Stop main";
     file_wr(std::string(LOG), &str, SH_MEM);
 
     return 0;

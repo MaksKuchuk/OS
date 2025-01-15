@@ -6,7 +6,13 @@ set(CMAKE_CXX_COMPILER "g++")
 
 # set(CMAKE_CXX_COMPILER "clang")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
+if (UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
+endif (unix)
+if (WIN32)
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
+    set(CMAKE_CXX_STANDARD 23)
+endif (WIN32)
 
 set(LIB_HDRS src/lib/background.hpp src/lib/ipc.hpp src/lib/threads.hpp src/lib/time.hpp src/lib/utils.hpp src/lib/my_shmem.hpp src/lib/definitions.hpp)
 set(LIB_SRCS src/lib/background.cpp src/lib/ipc.cpp src/lib/threads.cpp src/lib/time.cpp src/lib/utils.cpp)

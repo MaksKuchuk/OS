@@ -11,7 +11,7 @@
 int main() {
     auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
     std::cout << "Proc2 process started" << std::endl;
-    std::string str = std::format("Time: {},  Pid: {},  Process: proc2", time_to_string(cur_time()), cur_pid());
+    std::string str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Process: proc2";
     file_wr(std::string(LOG), &str, SH_MEM);
 
     SH_MEM.Lock();
@@ -24,7 +24,7 @@ int main() {
     SH_MEM.Data()->copies--;
     SH_MEM.Unlock();
 
-    str = std::format("Time: {},  Pid: {},  Stop proc2", time_to_string(cur_time()), cur_pid());
+    str = std::string("Time: ") + time_to_string(cur_time()) + ",  Pid: " + std::to_string(cur_pid()) + ",  Stop proc2";
     file_wr(std::string(LOG), &str, SH_MEM);
 
     return 0;
