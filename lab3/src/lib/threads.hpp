@@ -3,7 +3,7 @@
 #include<thread>
 
 struct State {
-    int closed_pid = -1;
+    int closed_pid = 0;
     int copies = 0;
     int processes = 0;
 

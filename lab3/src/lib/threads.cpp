@@ -49,7 +49,7 @@ void th_wr_log(const std::atomic_bool *is_running) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     SH_MEM.Lock();
-    SH_MEM.Data()->closed_pid = (SH_MEM.Data()->closed_pid == cur_pid()) ? -1 : SH_MEM.Data()->closed_pid;
+    SH_MEM.Data()->closed_pid = (SH_MEM.Data()->closed_pid == cur_pid()) ? 0 : SH_MEM.Data()->closed_pid;
     SH_MEM.Unlock();
 }
 
