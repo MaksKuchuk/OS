@@ -6,7 +6,7 @@
 #include "time.hpp"
 
 void th_inc(const std::atomic_bool *is_running) {
-    auto SH_MEM = cplib::SharedMem<State>("m");
+    auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
     while (*is_running && SH_MEM.IsValid()) {
         SH_MEM.Lock();
         SH_MEM.Data()->counter++;
@@ -17,7 +17,7 @@ void th_inc(const std::atomic_bool *is_running) {
 
 void th_spawn_copy(const std::atomic_bool *is_running) {
     wait_all_progs(is_running);
-    auto SH_MEM = cplib::SharedMem<State>("m");
+    auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
 
     while (SH_MEM.IsValid() && *is_running) {
         SH_MEM.Lock();
@@ -39,7 +39,7 @@ void th_spawn_copy(const std::atomic_bool *is_running) {
 
 void th_wr_log(const std::atomic_bool *is_running) {
     wait_all_progs(is_running);
-    auto SH_MEM = cplib::SharedMem<State>("m");
+    auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
 
     while (SH_MEM.IsValid() && *is_running) {
         SH_MEM.Lock();

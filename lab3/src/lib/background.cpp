@@ -1,10 +1,11 @@
 #include "background.hpp"
-
+#include<iostream>
 
 int spawn_proc(int argc, char** argv, int *status_code) {
     #ifdef __linux__
         pid_t pid;
-        *status_code = posix_spawn(&pid, argv[0], NULL, NULL, argv, NULL);
+        char *const argvv[] = {NULL};
+        *status_code = posix_spawnp(&pid, argv[0], NULL, NULL, argvv, NULL);
         return pid;
     #elif _WIN32
         std::strgin argv_str();

@@ -8,7 +8,7 @@
 #include "lib/ipc.hpp"
 
 int main() {
-    auto SH_MEM = cplib::SharedMem<State>("m");
+    auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
     std::cout << "Proc1 process started" << std::endl;
     std::string str = std::format("Time: {},  Pid: {},  Process: proc1", time_to_string(cur_time()), cur_pid());
     file_wr(std::string(LOG), &str, SH_MEM);

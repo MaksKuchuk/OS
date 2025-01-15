@@ -10,7 +10,7 @@ int cur_pid() {
 }
 
 void wait_all_progs(const std::atomic_bool *is_running) {
-    auto SH_MEM = cplib::SharedMem<State>("m");
+    auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
     int loc_pid = cur_pid();
     do {
         SH_MEM.Lock();

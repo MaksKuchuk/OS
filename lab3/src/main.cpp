@@ -9,8 +9,12 @@
 #include "lib/ipc.hpp"
 #include "lib/threads.hpp"
 
+#include <unistd.h>
+#include <stdio.h>
+#include <linux/limits.h>
+
 int main(int argc, char** argv) {
-    auto SH_MEM = cplib::SharedMem<State>("m");
+    auto SH_MEM = cplib::SharedMem<State>(MEM_NAME);
     std::cout << "Main process started" << std::endl;
 
     std::atomic_bool is_runnig = true;
