@@ -1,6 +1,6 @@
-@REM cls
-@REM mkdir build
-@REM cd build/
-@REM cmake -G "MinGW Makefiles" ..
-@REM cmake --build .
-@REM cd ..
+cls
+mkdir build
+cd build/
+cmake -G "MinGW Makefiles" ..
+cmake --build .
+cd ..

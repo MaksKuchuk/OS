@@ -1,1 +1,2 @@
-@REM start ./build/main.exe
+start ./build/sim.exe
+start ./build/main.exe

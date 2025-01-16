@@ -12,7 +12,7 @@
 #ifdef __linux__
     std::string PORT = "/dev/pts/4";
 #elif _WIN32
-    std::string PORT = "COM3";
+    std::string PORT = "COM4";
 #endif
 
 std::mutex SEC_MUT;
