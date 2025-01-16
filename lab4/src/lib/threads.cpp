@@ -19,7 +19,7 @@ std::mutex SEC_MUT;
 std::mutex HOUR_MUT;
 std::mutex DAY_MUT;
 
-void th_wr_sec() {
+void th_wr_sec(const std::atomic_bool *is_running) {
     std::string p(PORT);
     cplib::SerialPort sp(p, cplib::SerialPort::BAUDRATE_115200);
     if (!std::filesystem::exists(LOG_SEC)) std::ofstream(LOG_SEC).close();
@@ -27,7 +27,7 @@ void th_wr_sec() {
     std::string temperature;
     sp.SetTimeout(1.0);
     double temp = 0;
-    while (true) {
+    while (*is_running) {
         sp >> temperature;
 
         try {
@@ -43,9 +43,13 @@ void th_wr_sec() {
     }
 }
 
-void th_wr_hour() {
-    for (;;) {
-        std::this_thread::sleep_for(std::chrono::seconds(get_period_val(Period::Hour)));
+void th_wr_hour(const std::atomic_bool *is_running) {
+    while (*is_running) {
+        for (size_t i = 0; i < get_period_val(Period::Hour); i++) {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            if (!*is_running) break;
+        }
+        if (!*is_running) break;
         if (!std::filesystem::exists(LOG_HOUR)) std::ofstream(LOG_HOUR).close();
 
         SEC_MUT.lock();
@@ -61,9 +65,13 @@ void th_wr_hour() {
     }
 }
 
-void th_wr_day() {
-    for (;;) {
-        std::this_thread::sleep_for(std::chrono::seconds(get_period_val(Period::Day)));
+void th_wr_day(const std::atomic_bool *is_running) {
+    while (*is_running) {
+        for (size_t i = 0; i < get_period_val(Period::Day); i++) {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            if (!*is_running) break;
+        }
+        if (!*is_running) break;
         if (!std::filesystem::exists(LOG_DAY)) std::ofstream(LOG_DAY).close();
 
         HOUR_MUT.lock();

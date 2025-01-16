@@ -15,25 +15,25 @@ std::string get_temp_from_log(std::string str) {
 
 size_t get_period_val(Period per) {
     // if (per == Period::Hour) {
-    //     // return 60 * 60;
-    //     return 15;
+    //     return 3;
     // } else if (per == Period::Day) {
-    //     return 60 * 60 * 24;
+    //     return 7;
     // } else if (per == Period::Month) {
-    //     return 60 * 60 * 24 * 30;
+    //     return 15;
     // } else if (per == Period::Year) {
-    //     return 60 * 60 * 24 * 30 * 365;
+    //     return 31;
     // }
 
     if (per == Period::Hour) {
-        return 3;
+        return 60 * 60;
     } else if (per == Period::Day) {
-        return 7;
+        return 60 * 60 * 24;
     } else if (per == Period::Month) {
-        return 15;
+        return 60 * 60 * 24 * 30;
     } else if (per == Period::Year) {
-        return 31;
+        return 60 * 60 * 24 * 30 * 365;
     }
+
     return 0;
 }
 

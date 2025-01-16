@@ -4,17 +4,26 @@
 #include <format>
 #include <thread>
 #include <fstream>
+#include <atomic>
 
 #include "lib/threads.hpp"
 #include "lib/definitions.hpp"
 
-
 int main(int argc, char **argv) {
-    std::thread th_sec(th_wr_sec);
-    std::thread th_hour(th_wr_hour);
-    std::thread th_day(th_wr_day);
+    std::atomic_bool is_runnig = {true};
 
-    for (;;) {}
+    std::thread th_sec(th_wr_sec, &is_runnig);
+    std::thread th_hour(th_wr_hour, &is_runnig);
+    std::thread th_day(th_wr_day, &is_runnig);
+
+    std::string str;
+    while (is_runnig) {
+        std::cout << "[q]uit: ";
+        std::cin >> str;
+        if (str == "q") {
+            is_runnig = false;
+        }
+    }
 
     th_sec.join();
     th_hour.join();
