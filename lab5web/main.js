@@ -23,6 +23,9 @@ async function day_btn() {
 }
 
 function parse_data(data) {
+    if (data.trim() == "") {
+        return []
+    }
     d = data.split(' ');
     dt = [];
     for (let i = 0; i < d.length; i += 2) {
@@ -33,13 +36,6 @@ function parse_data(data) {
 }
 
 function fill_table(period, data) {
-    document.getElementById("period_str").innerHTML = "Period: " + period;
-    let str = ""
-    for (let i = 0; i < data.length; i++) {
-        str += `<tr><td>${timeConverter(data[i][0])}</td><td>${data[i][1]}</td></tr>`
-    }
-    document.getElementById("table").innerHTML = str;
-
     setTimeout(() => {
         if (last_press == "Sec") {
             sec_btn();
@@ -49,6 +45,17 @@ function fill_table(period, data) {
             day_btn();
         }
     }, 1000);
+    document.getElementById("period_str").innerHTML = "Period: " + period;
+    if (data.length == 0) {
+        document.getElementById("table").innerHTML = "";
+        return;
+    };
+    
+    let str = ""
+    for (let i = 0; i < data.length; i++) {
+        str += `<tr><td>${timeConverter(data[i][0])}</td><td>${data[i][1]}</td></tr>`
+    }
+    document.getElementById("table").innerHTML = str;
 }
 
 function timeConverter(UNIX_timestamp) {

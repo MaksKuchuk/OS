@@ -23,10 +23,9 @@ set(LIB_SRCS src/lib_server/db.cpp src/lib_server/server.cpp src/lib_server/sock
 add_executable(main src/main.cpp ${LIB_HDRS} ${LIB_SRCS})
 add_executable(sim src/sim.cpp src/lib/my_serial.hpp src/lib/utils.hpp src/lib/utils.cpp)
 
-target_link_libraries(main PRIVATE SQLite::SQLite3)
-
-# IF (NOT WIN32)
-#     TARGET_LINK_LIBRARIES(main rt pthread)
-#     TARGET_LINK_LIBRARIES(proc1 rt pthread)
-#     TARGET_LINK_LIBRARIES(proc2 rt pthread)
-# ENDIF (NOT WIN32)
+if (UNIX)
+    target_link_libraries(main PRIVATE SQLite::SQLite3)
+endif (UNIX)
+if (WIN32)
+    target_link_libraries(main PRIVATE SQLite::SQLite3 ws2_32)
+endif (WIN32)
