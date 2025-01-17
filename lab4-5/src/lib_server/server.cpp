@@ -34,7 +34,7 @@
 
 static std::string get_ans(const std::string &b) {
     std::stringstream ans;
-    ans << "HTTP/1.1 200 OK\r\n" << "Content-Type: text/plain\r\n" << "Content-Length: " << b.length() << "\r\n\r\n" << b;
+    ans << "HTTP/1.1 200 OK\r\n" << "Content-Type: text/plain\r\n" << "Access-Control-Allow-Origin: *\r\n" << "Content-Length: " << b.length() << "\r\n\r\n" << b;
     return ans.str();
 }
 
