@@ -3,25 +3,30 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 #include <filesystem>
 #include <fstream>
 
-#ifdef __linux__
-    #include <sys/socket.h> /* socket */
-    #include <sys/types.h>
-    #include <netinet/in.h> /* socket */
-    #include <arpa/inet.h>  /* socket */
-    #include <unistd.h>
-    #include <netdb.h> /* getaddrinfo */
-    #include <poll.h>  /* poll */
-    #include <signal.h>
-    #include <string.h> /* memset */
-    #define SOCKET int
-    #define INVALID_SOCKET -1
-    #define SOCKET_ERROR -1
-#elif WIN32
-    #include <winsock2.h> /* socket */
-    #include <ws2tcpip.h> /* getaddrinfo */
+#ifdef WIN32
+
+#include <winsock2.h> /* socket */
+#include <ws2tcpip.h> /* getaddrinfo */
+
+#else
+
+#include <sys/socket.h> /* socket */
+#include <sys/types.h>
+#include <netinet/in.h> /* socket */
+#include <arpa/inet.h>  /* socket */
+#include <unistd.h>
+#include <netdb.h> /* getaddrinfo */
+#include <poll.h>  /* poll */
+#include <signal.h>
+#include <string.h> /* memset */
+#define SOCKET int
+#define INVALID_SOCKET -1
+#define SOCKET_ERROR -1
+
 #endif
 
 SocketBase::SocketBase() : req_sock(INVALID_SOCKET) {
