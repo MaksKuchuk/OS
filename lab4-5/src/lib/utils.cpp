@@ -14,15 +14,15 @@ std::string get_temp_from_log(std::string str) {
 }
 
 size_t get_period_val(Period per) {
-    if (per == Period::Hour) {
-        return 3;
-    } else if (per == Period::Day) {
-        return 7;
-    } else if (per == Period::Month) {
-        return 15;
-    } else if (per == Period::Year) {
-        return 31;
-    }
+    // if (per == Period::Hour) {
+    //     return 3;
+    // } else if (per == Period::Day) {
+    //     return 7;
+    // } else if (per == Period::Month) {
+    //     return 15;
+    // } else if (per == Period::Year) {
+    //     return 31;
+    // }
 
     if (per == Period::Hour) {
         return 60 * 60;
@@ -73,7 +73,7 @@ time_t get_local_time() {
 }
 
 void remove_out_of_period_and_add(std::string path, time_t loc_time, double temp, Period per) {
-    std::string tmp_path = path + ".tmp";
+    std::string tmp_path = "." + path;
     if (std::filesystem::exists(tmp_path)) std::filesystem::remove(tmp_path);
 
     std::filesystem::copy_file(path, tmp_path);

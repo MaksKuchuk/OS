@@ -34,7 +34,14 @@
 
 static std::string get_ans(const std::string &b) {
     std::stringstream ans;
-    ans << "HTTP/1.1 200 OK\r\n" << "Content-Type: text/plain\r\n" << "Access-Control-Allow-Origin: *\r\n" << "Content-Length: " << b.length() << "\r\n\r\n" << b;
+    ans << "HTTP/1.1 200 OK\r\n" <<
+           "Access-Control-Allow-Headers: Access-Control-Allow-Origin, Access-Control-Allow-Credentials, cache-control, Access-Control-Allow-Methods, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version\r\n" <<
+           "Access-Control-Allow-Credentials: true\r\n" <<
+           "Access-Control-Allow-Origin: *\r\n" <<
+           "Access-Control-Allow-Methods: GET,OPTIONS,PATCH,DELETE,POST,PUT\r\n" <<
+           "Content-Type: text/plain\r\n" <<
+           "Content-Length: " << 
+           b.length() << "\r\n\r\n" << b;
     return ans.str();
 }
 
@@ -131,10 +138,6 @@ void HttpServer::process_client() {
     }
 
     auto req = Request(recv_str.str());
-    // std::cout << recv_str.str() << "\n\n";
-
-    // std::cout << req.get_meth() << " " << req.get_url() << std::endl;
-    
     std::string d;
     if (req.get_url() == "/sec") {
         d = get_data_from_db(db, Table::TSec);
@@ -152,6 +155,5 @@ void HttpServer::process_client() {
     }
     
     close_socket(client_socket);
-    // std::cout << "Answered to client!" << std::endl;
 }
 

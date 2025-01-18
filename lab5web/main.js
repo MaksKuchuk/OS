@@ -1,43 +1,67 @@
-port = "8083"
+port = "8082"
+last_press = "Sec"
 
-function sec_btn() {
-    fetch("http://127.0.0.1:" + port + "/sec", {
-        headers: {
-            'Accept': '*/*',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Encoding': 'gzip, deflate, br',
-            'Access-Control-Allow-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-            'Sec-Fetch-Dest': 'script',
-            'Sec-Fetch-Mode': 'no-cors',
-            'Sec-Fetch-Site': 'cross-site',
+async function sec_btn() {
+    const { data } = await axios.get("http://127.0.0.1:" + port + "/sec");
+
+    fill_table("Second", parse_data(data));
+    last_press = "Sec"
+}
+
+async function hour_btn() {
+    const { data } = await axios.get("http://127.0.0.1:" + port + "/hour");
+
+    fill_table("Hour", parse_data(data));
+    last_press = "Hour"
+}
+
+async function day_btn() {
+    const { data } = await axios.get("http://127.0.0.1:" + port + "/day");
+
+    fill_table("Day", parse_data(data));
+    last_press = "Day"
+}
+
+function parse_data(data) {
+    d = data.split(' ');
+    dt = [];
+    for (let i = 0; i < d.length; i += 2) {
+        dt.push([d[i], d[i + 1]]);
+    }
+    console.log(dt)
+    return dt;
+}
+
+function fill_table(period, data) {
+    document.getElementById("period_str").innerHTML = "Period: " + period;
+    let str = ""
+    for (let i = 0; i < data.length; i++) {
+        str += `<tr><td>${timeConverter(data[i][0])}</td><td>${data[i][1]}</td></tr>`
+    }
+    document.getElementById("table").innerHTML = str;
+
+    setTimeout(() => {
+        if (last_press == "Sec") {
+            sec_btn();
+        } else if (last_press == "Hour") {
+            hour_btn();
+        } else if (last_press == "Day") {
+            day_btn();
         }
-    }).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        console.log(data);
-    });
+    }, 1000);
 }
 
-function hour_btn() {
-    fetch("http://127.0.0.1:" + port + "/hour").then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        console.log(data);
-    });
+function timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+    return time;
 }
 
-function day_btn() {
-    fetch("http://127.0.0.1:" + port + "/day").then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        console.log(data);
-    });
-}
-
-function parse_data() {
-
-}
-
-function fill_table(data) {
-
-}
+window.onload = sec_btn;

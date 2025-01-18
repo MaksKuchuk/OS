@@ -13,8 +13,6 @@ void th_server(const std::atomic_bool *is_running, Db *db) {
         return;
     }
 
-    // std::cout << "http://" << IP << ":" << IP_PORT << std::endl;
-
     while (*is_running) {
         if (!serv.is_valid()) {
             std::cerr << "Server error" << std::endl;

@@ -19,6 +19,10 @@
     margin: 15px;
 }
 
+.btn-cont h3 {
+    margin-top: 30px;
+}
+
 .data {
     flex-grow: 1;
 
@@ -26,8 +30,29 @@
     padding-left: 50px;
 }
 
-.data table {
-    border: 2px solid #000000
+table tr td:first-child {
+    width: 250px;
+    word-break: break-all;
+}
+
+table tr td:last-child {
+    width: 200px;
+    word-break: break-all;
+}
+
+.tbody-cont {
+    height: 85vh;
+    /* overflow: hidden; */
+    overflow-y: auto;
+}
+
+.data tbody {
+    position: sticky;
+    top: 0;
+    border: 2px solid #000000;
+
+    /* height: 80vh;
+    overflow: auto; */
 }
 
 .data td {
