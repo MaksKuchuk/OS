@@ -11,7 +11,7 @@
 #include "../lib_server/db.hpp"
 
 #ifdef __linux__
-    std::string PORT = "/dev/pts/4";
+    std::string PORT = "/dev/pts/2";
 #elif _WIN32
     std::string PORT = "COM4";
 #endif
