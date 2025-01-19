@@ -10,7 +10,7 @@
 #define _USE_MATH_DEFINES
 
 #ifdef __linux__
-    std::string PORT = "/dev/pts/0";
+    std::string PORT = "/dev/pts/3";
 #elif _WIN32
     std::string PORT = "COM3";
 #endif
