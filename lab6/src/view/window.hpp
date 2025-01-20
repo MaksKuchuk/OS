@@ -11,7 +11,10 @@
 #include <QNetworkRequest>
 #include <QChartView>
 
-using namespace QtCharts;
+#ifdef __linux__
+    using namespace QtCharts;
+#endif
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT

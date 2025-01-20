@@ -5,7 +5,7 @@ set(TARGET_NAME OSProject)
 
 #You can change this to Qt5 if you
 #are not ready to migrate to Qt6.
-set(QT_MAJOR_VERSION 5)
+set(QT_MAJOR_VERSION 6)
 
 project(${TARGET_NAME} VERSION 0.0.1 DESCRIPTION "Project Description")
 
