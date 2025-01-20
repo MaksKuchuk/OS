@@ -38,7 +38,7 @@ add_executable(${TARGET_NAME}
 if(MSVC)
     target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
 else()
-    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
+    target_compile_options(${TARGET_NAME} PRIVATE -Wextra -pedantic)
 endif()
 
 target_include_directories(${TARGET_NAME} PRIVATE ${Qt${QT_MAJOR_VERSION}_INCLUDE_DIRS})

@@ -16,6 +16,8 @@ using namespace QtCharts;
 class MainWindow : public QMainWindow {
     Q_OBJECT
     bool state = false;
+    double minn;
+    double maxx;
 
     QNetworkAccessManager* manager;
     QNetworkRequest request;
