@@ -69,8 +69,10 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
             this->minn = std::stod(v[1]);
             this->maxx = std::stod(v[1]);
             QLineSeries* series = new QLineSeries();
+            QDateTime ts;
             for (size_t i = 0; i < v.size(); i += 2) {
-                series->append(std::stoll(v[i]), std::stod(v[i + 1]));
+                ts.setTime_t(std::stoll(v[i]));
+                series->append(ts.toMSecsSinceEpoch(), std::stod(v[i + 1]));
 
                 if (std::stod(v[i + 1]) > maxx) {
                     this->maxx = std::stod(v[i + 1]);
@@ -79,15 +81,16 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
                     this->minn = std::stod(v[i + 1]);
                 }
 
-                QDateTime ts;
+                ;
                 if (t == 'c') {
-                    ts.setTime_t(std::stoll(v[i]));
                     secTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString(Qt::SystemLocaleShortDate)));
                     secTable->setItem(i/2, 1, new QTableWidgetItem(QString::fromStdString(v[i + 1])));
                 } else if (t == 'r') {
+                    // ts.setTime_t(std::stoll(v[i]));
                     hourTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString(Qt::SystemLocaleShortDate)));
                     hourTable->setItem(i/2, 1, new QTableWidgetItem(QString::fromStdString(v[i + 1])));
                 } else if (t == 'y') {
+                    // ts.setTime_t(std::stoll(v[i]));
                     dayTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString(Qt::SystemLocaleShortDate)));
                     dayTable->setItem(i/2, 1, new QTableWidgetItem(QString::fromStdString(v[i + 1])));
                 }
