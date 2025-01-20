@@ -66,18 +66,18 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
                 dayTable->setRowCount(v.size() / 2);
             }
 
-            // this->minn = std::stod(v[1])
-            // this->maxx = std::stod(v[1]);
+            this->minn = std::stod(v[1]);
+            this->maxx = std::stod(v[1]);
             QLineSeries* series = new QLineSeries();
             for (size_t i = 0; i < v.size(); i += 2) {
                 series->append(std::stoll(v[i]), std::stod(v[i + 1]));
 
-                // if (std::stod(v[i + 1]) > maxx) {
-                //     this->maxx = std::stod(v[i + 1]);
-                // }
-                // if (std::stod(v[i + 1]) < minn) {
-                //     this->minn = std::stod(v[i + 1]);
-                // }
+                if (std::stod(v[i + 1]) > maxx) {
+                    this->maxx = std::stod(v[i + 1]);
+                }
+                if (std::stod(v[i + 1]) < minn) {
+                    this->minn = std::stod(v[i + 1]);
+                }
 
                 QDateTime ts;
                 if (t == 'c') {
@@ -93,6 +93,8 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
                 }
             }
 
+            // qDebug() << minn << " " << maxx;
+
             // QDateTimeAxis *axisX = new QDateTimeAxis;
             // axisX->setTickCount(4);
             // axisX->setFormat("hh:mm:ss");
@@ -102,12 +104,19 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
             // axisY->setLabelFormat("%.2f");
             // axisY->setTitleText("Temperature");
 
+            QDateTime tsmin, tsmax;
             if (t == 'c') {
                 secChart->chart()->removeAllSeries();
                 // secChart->chart()->removeAxis(secChart->chart()->axisX());
                 // secChart->chart()->removeAxis(secChart->chart()->axisY());
                 secData = series;
                 secChart->chart()->addSeries(secData);
+                secChart->chart()->axisY()->setRange(minn, maxx);
+
+                tsmin.setTime_t(std::stoll(v[0]));
+                tsmax.setTime_t(std::stoll(v[v.size() - 2]));
+                secChart->chart()->axisX()->setRange(tsmin, tsmax);
+
                 // secChart->chart()->addAxis(axisX, Qt::AlignBottom);
                 secData->attachAxis(secChart->chart()->axisX());
                 // secChart->chart()->addAxis(axisY, Qt::AlignLeft);
@@ -117,11 +126,31 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
                 hourChart->chart()->removeAllSeries();
                 hourData = series;
                 hourChart->chart()->addSeries(hourData);
+                hourChart->chart()->axisY()->setRange(minn, maxx);
+
+                tsmin.setTime_t(std::stoll(v[0]));
+                tsmax.setTime_t(std::stoll(v[v.size() - 2]));
+                hourChart->chart()->axisX()->setRange(tsmin, tsmax);
+
+                // secChart->chart()->addAxis(axisX, Qt::AlignBottom);
+                hourData->attachAxis(hourChart->chart()->axisX());
+                // secChart->chart()->addAxis(axisY, Qt::AlignLeft);
+                hourData->attachAxis(hourChart->chart()->axisY());
                 hourChart->repaint();
             } else if (t == 'y') {
                 dayChart->chart()->removeAllSeries();
                 dayData = series;
                 dayChart->chart()->addSeries(dayData);
+                dayChart->chart()->axisY()->setRange(minn, maxx);
+
+                tsmin.setTime_t(std::stoll(v[0]));
+                tsmax.setTime_t(std::stoll(v[v.size() - 2]));
+                dayChart->chart()->axisX()->setRange(tsmin, tsmax);
+
+                // secChart->chart()->addAxis(axisX, Qt::AlignBottom);
+                dayData->attachAxis(dayChart->chart()->axisX());
+                // secChart->chart()->addAxis(axisY, Qt::AlignLeft);
+                dayData->attachAxis(dayChart->chart()->axisY());
                 dayChart->repaint();
             }
         }
@@ -155,7 +184,7 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
     secData->attachAxis(axisX);
 
     QValueAxis *axisY = new QValueAxis;
-    axisY->setLabelFormat("%.0f");
+    axisY->setLabelFormat("%.5f");
     axisY->setTitleText("Temperature");
     // axisY->setRange(se, 17);
     chart->addAxis(axisY, Qt::AlignLeft);
@@ -197,7 +226,7 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
     hourData->attachAxis(axisX);
 
     axisY = new QValueAxis;
-    axisY->setLabelFormat("%i");
+    axisY->setLabelFormat("%.5f");
     axisY->setTitleText("Temperature");
     chart->addAxis(axisY, Qt::AlignLeft);
     hourData->attachAxis(axisY);
@@ -238,7 +267,7 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
     dayData->attachAxis(axisX);
 
     axisY = new QValueAxis;
-    axisY->setLabelFormat("%i");
+    axisY->setLabelFormat("%.5f");
     axisY->setTitleText("Temperature");
     chart->addAxis(axisY, Qt::AlignLeft);
     dayData->attachAxis(axisY);
