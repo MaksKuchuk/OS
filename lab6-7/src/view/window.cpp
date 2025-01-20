@@ -9,10 +9,12 @@
 #include <QHeaderView>
 #include <QAbstractItemView>
 #include <QDateTimeAxis>
+#include <QDateTime>
 #include <QValueAxis>
 #include <format>
 #include <string>
 #include <QNetworkReply>
+#include <chrono>
 #include "../definitions.hpp"
 #include "../utils.hpp"
 
@@ -71,7 +73,7 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
             QLineSeries* series = new QLineSeries();
             QDateTime ts;
             for (size_t i = 0; i < v.size(); i += 2) {
-                ts.setTime_t(std::stoll(v[i]));
+                ts = QDateTime::fromSecsSinceEpoch(std::stoll(v[i]));
                 series->append(ts.toMSecsSinceEpoch(), std::stod(v[i + 1]));
 
                 if (std::stod(v[i + 1]) > maxx) {
@@ -83,15 +85,15 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
 
                 ;
                 if (t == 'c') {
-                    secTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString(Qt::SystemLocaleShortDate)));
+                    secTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString("dd/mm/yyyy hh:mm:ss")));
                     secTable->setItem(i/2, 1, new QTableWidgetItem(QString::fromStdString(v[i + 1])));
                 } else if (t == 'r') {
                     // ts.setTime_t(std::stoll(v[i]));
-                    hourTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString(Qt::SystemLocaleShortDate)));
+                    hourTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString("dd/mm/yyyy hh:mm:ss")));
                     hourTable->setItem(i/2, 1, new QTableWidgetItem(QString::fromStdString(v[i + 1])));
                 } else if (t == 'y') {
                     // ts.setTime_t(std::stoll(v[i]));
-                    dayTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString(Qt::SystemLocaleShortDate)));
+                    dayTable->setItem(i/2, 0, new QTableWidgetItem(ts.toString("dd/mm/yyyy hh:mm:ss")));
                     dayTable->setItem(i/2, 1, new QTableWidgetItem(QString::fromStdString(v[i + 1])));
                 }
             }
@@ -116,9 +118,9 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
                 secChart->chart()->addSeries(secData);
                 secChart->chart()->axisY()->setRange(minn, maxx);
 
-                tsmin.setTime_t(std::stoll(v[0]));
-                tsmax.setTime_t(std::stoll(v[v.size() - 2]));
-                secChart->chart()->axisX()->setRange(tsmin, tsmax);
+                // tsmin.setTime_t(std::stoll(v[0]));
+                // tsmax.setTime_t(std::stoll(v[v.size() - 2]));
+                secChart->chart()->axisX()->setRange(QDateTime::fromSecsSinceEpoch(std::stoll(v[0])), QDateTime::fromSecsSinceEpoch(std::stoll(v[v.size() - 2])));
 
                 // secChart->chart()->addAxis(axisX, Qt::AlignBottom);
                 secData->attachAxis(secChart->chart()->axisX());
@@ -131,9 +133,10 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
                 hourChart->chart()->addSeries(hourData);
                 hourChart->chart()->axisY()->setRange(minn, maxx);
 
-                tsmin.setTime_t(std::stoll(v[0]));
-                tsmax.setTime_t(std::stoll(v[v.size() - 2]));
-                hourChart->chart()->axisX()->setRange(tsmin, tsmax);
+                // tsmin.setTime_t(std::stoll(v[0]));
+                // tsmax.setTime_t(std::stoll(v[v.size() - 2]));
+                // hourChart->chart()->axisX()->setRange(tsmin, tsmax);
+                hourChart->chart()->axisX()->setRange(QDateTime::fromSecsSinceEpoch(std::stoll(v[0])), QDateTime::fromSecsSinceEpoch(std::stoll(v[v.size() - 2])));
 
                 // secChart->chart()->addAxis(axisX, Qt::AlignBottom);
                 hourData->attachAxis(hourChart->chart()->axisX());
@@ -146,9 +149,10 @@ MainWindow::MainWindow(QWidget* parent):QMainWindow(parent), manager(new QNetwor
                 dayChart->chart()->addSeries(dayData);
                 dayChart->chart()->axisY()->setRange(minn, maxx);
 
-                tsmin.setTime_t(std::stoll(v[0]));
-                tsmax.setTime_t(std::stoll(v[v.size() - 2]));
-                dayChart->chart()->axisX()->setRange(tsmin, tsmax);
+                // tsmin.setTime_t(std::stoll(v[0]));
+                // tsmax.setTime_t(std::stoll(v[v.size() - 2]));
+                // dayChart->chart()->axisX()->setRange(tsmin, tsmax);
+                dayChart->chart()->axisX()->setRange(QDateTime::fromSecsSinceEpoch(std::stoll(v[0])), QDateTime::fromSecsSinceEpoch(std::stoll(v[v.size() - 2])));
 
                 // secChart->chart()->addAxis(axisX, Qt::AlignBottom);
                 dayData->attachAxis(dayChart->chart()->axisX());
